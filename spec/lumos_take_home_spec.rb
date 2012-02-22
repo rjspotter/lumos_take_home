@@ -29,5 +29,16 @@ describe "LumosTakeHome" do
       subject.optimize("ham_sandwich","burrito").
         should == [2,11.5]      
     end
+
+    context "combo meals" do
+      
+      it "returns 3,10 for the combo meal" do
+        sample << [3, 10.0, "ham_sandwich", "burrito"]
+        subject.menu = sample
+        subject.optimize("ham_sandwich","burrito").
+          should == [3,10.0]
+      end
+
+    end
   end
 end
