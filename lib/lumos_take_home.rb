@@ -36,10 +36,10 @@ class LumosTakeHome
     menu.map do |x|
       block.call(x)
       args.inject([]) do |collector,z|
-        unless collector.inject([]) {|m,v| m << v[1..-1] ; m}.flatten.include?(z)
+        unless collector.flatten.include?(z)
           collector << x.select {|y| y[1..-1].include? z}.
             sort do |a,b| 
-            ((b[1..-1] + args).uniq <=> (a[1..-1] + args).uniq)
+              ((b[1..-1] + args).uniq <=> (a[1..-1] + args).uniq)
             end.first
         end
         collector
