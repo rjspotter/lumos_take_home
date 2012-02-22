@@ -14,24 +14,29 @@ class LumosTakeHome
       m[x[0]] << x[1..x.length]
       m
     end
-    @menu.shift
+    @offset = 0
+    while @menu.first.nil? || @menu.first == []
+      @offset += 1
+      @menu.shift
+    end
   end
 
 
   def optimize(*args)
     args.flatten!
-    costs  = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]} }
-    rcosts = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]}.reverse! }
-    smallest = (costs + rcosts).sort.first
-    [(costs.index(smallest) || rcosts.index(smallest)) + 1,smallest]
+    if solvable_for(args)
+      costs  = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]} }
+      rcosts = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]}.reverse! }
+      smallest = (costs + rcosts).sort.first
+      [(costs.index(smallest) || rcosts.index(smallest)) + @offset,smallest]
+    end
   end
 
   def algo(args, &block)
     menu.map do |x|
       block.call(x)
-      collector = []
       args.inject([]) do |collector,z|
-        unless collector.inject([]) {|m,x| m << x[1..-1] ; m}.flatten.include?(z)
+        unless collector.inject([]) {|m,v| m << v[1..-1] ; m}.flatten.include?(z)
           collector << x.select {|y| y[1..-1].include? z}.
             sort do |a,b| 
             ((b[1..-1] + args).uniq <=> (a[1..-1] + args).uniq)
@@ -40,6 +45,10 @@ class LumosTakeHome
         collector
       end
     end.map {|z| z.inject(0.0) {|m,x| m + x[0]}}
+  end
+
+  def solvable_for(args)
+    menu.select {|x| (args - x.flatten).length == 0}.length > 0
   end
 
 end
