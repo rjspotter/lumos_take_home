@@ -23,11 +23,11 @@ describe "LumosTakeHome" do
         should == [2,11.5]
     end
 
-    # it "returns 2,11.5 even if there are more expensive items that match" do
-    #   sample << [2, 8.00, "ham_sandwich"]
-    #   subject.menu = sample
-    #   subject.optimize("ham_sandwich","burrito").
-    #     should == [2,11.5]      
-    # end
+    it "returns 2,11.5 even if there are more expensive items that match" do
+      sample << [2, 8.00, "ham_sandwich"]
+      subject.menu = sample
+      subject.optimize("ham_sandwich","burrito").
+        should == [2,11.5]      
+    end
   end
 end
