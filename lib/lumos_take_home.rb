@@ -13,20 +13,26 @@ class LumosTakeHome
 
 
   def optimize(*args)
-    costs = menu.map do |x|
-      x.sort! {|a,b| a[0] <=> b[0]}
-      collector = []
-      args.each do |z|
-        unless collector.inject([]) {|m,x| m << x[1..-1] ; m}.flatten.include?(z)
-          collector << x.select {|y| y[1..-1].include? z}.first
-        end
-      end
-      collector
-    end.map {|z| z.inject(0.0) {|m,x| m + x[0]}}
-    smallest = costs.sort.first
-    [costs.index(smallest) + 1,smallest]
+    costs  = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]} }
+    rcosts = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]}.reverse! }
+    smallest = (costs + rcosts).sort.first
+    [(costs.index(smallest) || rcosts.index(smallest)) + 1,smallest]
   end
 
-  
+  def algo(args, &block)
+    menu.map do |x|
+      block.call(x)
+      collector = []
+      args.inject([]) do |collector,z|
+        unless collector.inject([]) {|m,x| m << x[1..-1] ; m}.flatten.include?(z)
+          collector << x.select {|y| y[1..-1].include? z}.
+            sort do |a,b| 
+            ((b[1..-1] + args).uniq <=> (a[1..-1] + args).uniq)
+            end.first
+        end
+        collector
+      end
+    end.map {|z| z.inject(0.0) {|m,x| m + x[0]}}
+  end
 
 end

@@ -39,6 +39,15 @@ describe "LumosTakeHome" do
           should == [3,10.0]
       end
 
+      it "returns the combo meal instead of less efficient options" do
+        sample = [[1,6.0,'ham_sandwich'], 
+                      [1,6.0,'burrito'], 
+                      [1, 10.0, "ham_sandwich", "burrito"]]
+        subject.menu = sample
+        subject.optimize("ham_sandwich","burrito").
+          should == [1,10.0]
+      end
+
     end
   end
 end
