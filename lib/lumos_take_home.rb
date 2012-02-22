@@ -19,6 +19,7 @@ class LumosTakeHome
 
 
   def optimize(*args)
+    args.flatten!
     costs  = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]} }
     rcosts = algo(args) {|x| x.sort! {|a,b| a[0] <=> b[0]}.reverse! }
     smallest = (costs + rcosts).sort.first

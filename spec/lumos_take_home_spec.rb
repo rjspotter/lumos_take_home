@@ -56,3 +56,13 @@ describe "LumosTakeHome" do
     end
   end
 end
+
+describe "wrapper" do
+
+  it "should return the simple case" do
+    executable = File.expand_path(File.dirname(__FILE__) + '/../bin/program')
+    csv        = File.expand_path(File.dirname(__FILE__) + '/exmp.csv')
+    `#{executable} #{csv} ham_sandwich burrito`.should == "2,11.5"
+  end
+
+end

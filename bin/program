@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+require File.expand_path(File.dirname(__FILE__) + '/../lib/lumos_take_home')
+
+print LumosTakeHome.new(ARGV[0]).optimize(ARGV[1..-1]).join(',')
