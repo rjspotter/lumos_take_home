@@ -1,5 +1,11 @@
+require 'csv'
 class LumosTakeHome
 
+  def initialize(file_string = "")
+    unless file_string == ""
+      self.menu = CSV.read(file_string).map {|x| [x[0].to_i, x[1].to_f] + x[2..-1].map(&:strip)}
+    end
+  end
 
   attr_reader :menu
   def menu=(arr)

@@ -13,6 +13,11 @@ describe "LumosTakeHome" do
 
   before {subject.menu = sample}
 
+  it "takes a csv file and parses it into the menus" do
+    s = LumosTakeHome.new(File.expand_path(File.dirname(__FILE__) + '/exmp.csv'))
+    s.menu.should == [[[4.00, "ham_sandwich"],[8.00, "burrito"]], [[5.00, "ham_sandwich"], [6.50, "burrito"]]]
+  end
+
   it "translates menus into an internal state" do
     subject.menu.should == [[[4.00, "ham_sandwich"],[8.00, "burrito"]], [[5.00, "ham_sandwich"], [6.50, "burrito"]]]
   end
