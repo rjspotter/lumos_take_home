@@ -31,12 +31,28 @@ RSpec::Core::RakeTask.new(:spec) do |spec|
   spec.pattern = FileList['spec/**/*_spec.rb']
 end
 
-RSpec::Core::RakeTask.new(:rcov) do |spec|
-  spec.pattern = 'spec/**/*_spec.rb'
-  spec.rcov = true
-end
-
 task :default => :spec
 
 require 'yard'
 YARD::Rake::YardocTask.new
+
+namespace :metrics do
+  desc "shows flog complexity metric"
+  task :flog do
+    puts `find lib -name \*.rb -printf "%p " | xargs flog -a`
+  end
+
+  desc "show flay duplication (copy/paste) metric"
+  task :flay do
+    puts "Flay " + `find lib -name \*.rb -printf "%p " | xargs flay`
+  end
+
+  desc "show reek smells"
+  task :reek do
+    puts `find lib -name \*.rb -printf "%p " | xargs reek`
+  end
+
+  desc "run flay and flog"
+  task :all => [:flay, :flog, :reek] 
+
+end
