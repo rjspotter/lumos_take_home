@@ -29,5 +29,7 @@ describe "LumosTakeHome" do
       subject.optimize("ham_sandwich","burrito").
         should == [2,11.5]      
     end
+
+
   end
 end

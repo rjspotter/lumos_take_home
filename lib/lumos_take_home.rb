@@ -8,6 +8,7 @@ class LumosTakeHome
       m[x[0]] << x[1..x.length]
       m
     end
+    @menu.shift
   end
 
 
@@ -16,11 +17,9 @@ class LumosTakeHome
       args.map do |z|
         x.select {|y| y[1] == z}.sort {|a,b| a[0] <=> b[0]}.first
       end
-    end
-    costs[0] = [0,0]
-    costs.map! {|z| z.inject(0.0) {|m,x| m + x[0]}}
-    smallest = costs.sort[1]
-    [costs.index(smallest),smallest]
+    end.map {|z| z.inject(0.0) {|m,x| m + x[0]}}
+    smallest = costs.sort.first
+    [costs.index(smallest) + 1,smallest]
   end
 
   
